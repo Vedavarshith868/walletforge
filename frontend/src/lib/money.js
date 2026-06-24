@@ -1,5 +1,5 @@
 export function formatAmount(minorUnits) {
-  return (minorUnits / 100).toLocaleString(undefined, {
+  return (minorUnits / 100).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
