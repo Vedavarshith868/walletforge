@@ -6,7 +6,8 @@ export default {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 3px 0 rgb(15 23 42 / 0.06)',
+        card: '0 10px 30px -12px rgb(0 0 0 / 0.6)',
+        glow: '0 0 0 1px rgb(255 255 255 / 0.05), 0 20px 50px -20px rgb(2 6 23 / 0.8)',
       },
     },
   },

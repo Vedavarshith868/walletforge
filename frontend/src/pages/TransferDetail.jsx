@@ -7,9 +7,9 @@ import { useAccounts } from '../lib/useAccounts';
 
 function Row({ label, children }) {
   return (
-    <div className="flex items-center justify-between border-b border-slate-100 py-3 last:border-0">
-      <span className="text-sm text-slate-500">{label}</span>
-      <span className="text-sm font-medium text-slate-900">{children}</span>
+    <div className="flex items-center justify-between border-b border-white/10 py-3 last:border-0">
+      <span className="text-sm text-slate-400">{label}</span>
+      <span className="text-sm font-medium text-white">{children}</span>
     </div>
   );
 }
@@ -64,24 +64,24 @@ export default function TransferDetail() {
       <PageHeader
         title="Transfer"
         back={
-          <Link to="/transfers" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+          <Link to="/transfers" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white">
             <IconChevronLeft className="h-4 w-4" /> Transactions
           </Link>
         }
       />
 
       <Card>
-        <div className="flex flex-col items-center gap-4 border-b border-slate-100 pb-6">
-          <p className="text-4xl font-semibold tabular-nums text-slate-900">
+        <div className="flex flex-col items-center gap-4 border-b border-white/10 pb-6">
+          <p className="text-4xl font-semibold tabular-nums text-white">
             <Amount minor={transfer.amount} />
           </p>
           <StatusBadge status={transfer.status} />
-          <div className="flex items-center gap-3 text-sm text-slate-600">
-            <Link to={`/accounts/${transfer.sourceAccountId}`} className="font-medium hover:text-indigo-600">
+          <div className="flex items-center gap-3 text-sm text-slate-300">
+            <Link to={`/accounts/${transfer.sourceAccountId}`} className="font-medium hover:text-sky-300">
               {accountName(transfer.sourceAccountId)}
             </Link>
-            <IconArrowRight className="h-4 w-4 text-slate-300" />
-            <Link to={`/accounts/${transfer.destinationAccountId}`} className="font-medium hover:text-indigo-600">
+            <IconArrowRight className="h-4 w-4 text-slate-600" />
+            <Link to={`/accounts/${transfer.destinationAccountId}`} className="font-medium hover:text-sky-300">
               {accountName(transfer.destinationAccountId)}
             </Link>
           </div>

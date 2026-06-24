@@ -36,11 +36,11 @@ export default function Login() {
       footer={
         <span>
           Need an account?{' '}
-          <Link to="/signup" className="font-medium text-slate-700 underline">
+          <Link to="/signup" className="font-medium text-sky-300 underline hover:text-sky-200">
             Join an organization
           </Link>{' '}
           or{' '}
-          <Link to="/signup-org" className="font-medium text-slate-700 underline">
+          <Link to="/signup-org" className="font-medium text-sky-300 underline hover:text-sky-200">
             create one
           </Link>
         </span>

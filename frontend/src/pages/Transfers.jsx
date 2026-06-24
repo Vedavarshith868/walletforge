@@ -83,13 +83,13 @@ export default function Transfers() {
         }
       />
 
-      <div className="flex gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-card sm:inline-flex">
+      <div className="glass flex gap-1 rounded-xl p-1 shadow-card sm:inline-flex">
         {FILTERS.map((option) => (
           <button
             key={option}
             onClick={() => setStatus(option)}
-            className={`rounded-md px-3 py-1.5 text-sm font-medium capitalize transition ${
-              status === option ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'
+            className={`rounded-lg px-3 py-1.5 text-sm font-medium capitalize transition ${
+              status === option ? 'bg-white text-slate-900' : 'text-slate-400 hover:text-white'
             }`}
           >
             {option}
@@ -130,18 +130,18 @@ export default function Transfers() {
             <TBody>
               {transfers.map((transfer) => (
                 <TR key={transfer.id} onClick={() => navigate(`/transfers/${transfer.id}`)}>
-                  <Td className="text-slate-900">{accountName(transfer.sourceAccountId)}</Td>
-                  <Td className="text-slate-300">
+                  <Td className="text-white">{accountName(transfer.sourceAccountId)}</Td>
+                  <Td className="text-slate-600">
                     <IconArrowRight className="h-4 w-4" />
                   </Td>
-                  <Td className="text-slate-900">{accountName(transfer.destinationAccountId)}</Td>
-                  <Td className="text-right font-medium text-slate-900">
+                  <Td className="text-white">{accountName(transfer.destinationAccountId)}</Td>
+                  <Td className="text-right font-medium text-white">
                     <Amount minor={transfer.amount} />
                   </Td>
                   <Td>
                     <StatusBadge status={transfer.status} />
                   </Td>
-                  <Td className="text-slate-500">{new Date(transfer.createdAt).toLocaleString()}</Td>
+                  <Td className="text-slate-400">{new Date(transfer.createdAt).toLocaleString()}</Td>
                 </TR>
               ))}
             </TBody>

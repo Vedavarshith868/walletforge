@@ -77,7 +77,7 @@ export default function Transfer() {
         title="New transfer"
         subtitle="Move money between two accounts. Every transfer debits one and credits the other."
         back={
-          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white">
             <IconChevronLeft className="h-4 w-4" /> Overview
           </Link>
         }
@@ -113,7 +113,7 @@ export default function Transfer() {
               onChange={update('amount')}
               placeholder="0.00"
               required
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-right font-mono text-lg text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-right font-mono text-lg text-white placeholder:text-slate-500 focus:border-sky-400/50 focus:outline-none focus:ring-2 focus:ring-sky-400/20"
             />
           </Field>
           <Field label="Mode" hint="Pending reserves the source balance until you post or void it.">

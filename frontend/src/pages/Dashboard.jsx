@@ -131,9 +131,9 @@ export default function Dashboard() {
           </div>
 
           <Card padded={false}>
-            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-              <h2 className="font-semibold text-slate-900">Accounts</h2>
-              <Link to="/accounts/new" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+              <h2 className="font-semibold text-white">Accounts</h2>
+              <Link to="/accounts/new" className="text-sm font-medium text-sky-400 hover:text-sky-300">
                 + New account
               </Link>
             </div>
@@ -147,14 +147,14 @@ export default function Dashboard() {
               <TBody>
                 {accounts.map((account) => (
                   <TR key={account.id} onClick={() => navigate(`/accounts/${account.id}`)}>
-                    <Td className="font-medium text-slate-900">{account.name}</Td>
+                    <Td className="font-medium text-white">{account.name}</Td>
                     <Td>
                       <TypeBadge type={account.type} />
                     </Td>
-                    <Td className="text-right font-medium text-slate-900">
+                    <Td className="text-right font-medium text-white">
                       <Amount minor={account.balance} />
                     </Td>
-                    <Td className="text-right text-slate-500">
+                    <Td className="text-right text-slate-400">
                       <Amount minor={account.availableBalance} />
                     </Td>
                   </TR>

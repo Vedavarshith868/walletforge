@@ -32,7 +32,7 @@ export default function NewAccount() {
         title="New account"
         subtitle="Accounts start at a zero balance and change only through balanced transfers."
         back={
-          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white">
             <IconChevronLeft className="h-4 w-4" /> Overview
           </Link>
         }

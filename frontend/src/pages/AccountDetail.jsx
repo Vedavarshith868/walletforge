@@ -76,7 +76,7 @@ export default function AccountDetail() {
       <PageHeader
         title={account.name}
         back={
-          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white">
             <IconChevronLeft className="h-4 w-4" /> Overview
           </Link>
         }
@@ -92,22 +92,22 @@ export default function AccountDetail() {
           <div className="space-y-2">
             <TypeBadge type={account.type} />
             <p className="text-xs uppercase tracking-wide text-slate-400">Posted balance</p>
-            <p className="text-3xl font-semibold tabular-nums text-slate-900">
+            <p className="text-3xl font-semibold tabular-nums text-white">
               <Amount minor={account.balance} />
             </p>
           </div>
-          <div className="rounded-lg bg-slate-50 px-4 py-3 text-right">
+          <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-right">
             <p className="text-xs uppercase tracking-wide text-slate-400">Available</p>
-            <p className="mt-1 text-lg font-semibold tabular-nums text-slate-700">
+            <p className="mt-1 text-lg font-semibold tabular-nums text-white">
               <Amount minor={account.availableBalance} />
             </p>
-            <p className="mt-0.5 text-xs text-slate-400">balance minus pending out</p>
+            <p className="mt-0.5 text-xs text-slate-500">balance minus pending out</p>
           </div>
         </div>
       </Card>
 
       <div>
-        <h2 className="mb-3 font-semibold text-slate-900">Transaction history</h2>
+        <h2 className="mb-3 font-semibold text-white">Transaction history</h2>
         {history.length === 0 ? (
           <EmptyState
             icon={<IconTransfers className="h-6 w-6" />}
@@ -147,7 +147,7 @@ export default function AccountDetail() {
                           {outgoing ? 'Out' : 'In'}
                         </span>
                       </Td>
-                      <Td className="text-slate-900">{counterpartyName(transfer)}</Td>
+                      <Td className="text-white">{counterpartyName(transfer)}</Td>
                       <Td className="text-right font-medium">
                         <Amount minor={outgoing ? -transfer.amount : transfer.amount} colored showSign />
                       </Td>
@@ -155,7 +155,7 @@ export default function AccountDetail() {
                         <StatusBadge status={transfer.status} />
                       </Td>
                       <Td>
-                        <Link to={`/transfers/${transfer.id}`} className="text-slate-500 hover:text-indigo-600">
+                        <Link to={`/transfers/${transfer.id}`} className="text-slate-400 hover:text-sky-300">
                           {new Date(transfer.createdAt).toLocaleString()}
                         </Link>
                       </Td>
