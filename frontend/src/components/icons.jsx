@@ -130,3 +130,24 @@ export const IconArrowRight = (p) => (
     <path d="m13 6 6 6-6 6" />
   </Icon>
 );
+
+export const IconShield = (p) => (
+  <Icon {...p}>
+    <path d="M12 3l8 3v5c0 4.5-3 7.6-8 9-5-1.4-8-4.5-8-9V6z" />
+    <path d="m9 12 2 2 4-4" />
+  </Icon>
+);
+
+export const IconBolt = (p) => (
+  <Icon {...p}>
+    <path d="M13 2 4 14h7l-1 8 9-12h-7z" />
+  </Icon>
+);
+
+export const IconLayers = (p) => (
+  <Icon {...p}>
+    <path d="m12 3 9 5-9 5-9-5z" />
+    <path d="m3 13 9 5 9-5" />
+  </Icon>
+);
+

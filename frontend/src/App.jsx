@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
+import Landing from './pages/Landing';
 import SignupOrg from './pages/SignupOrg';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -14,6 +15,7 @@ import TransferDetail from './pages/TransferDetail';
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<Landing />} />
       <Route path="/signup-org" element={<SignupOrg />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
@@ -27,7 +29,7 @@ export default function App() {
           <Route path="/transfers/:id" element={<TransferDetail />} />
         </Route>
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

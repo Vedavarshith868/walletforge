@@ -17,6 +17,7 @@ import {
   Td,
 } from '../components/ui';
 import { IconPlus, IconTransfers, IconArrowRight } from '../components/icons';
+import SeedDataButton from '../components/SeedDataButton';
 import { useApi } from '../lib/useApi';
 import { useAccounts } from '../lib/useAccounts';
 
@@ -106,12 +107,13 @@ export default function Transfers() {
           title={status === 'all' ? 'No transactions yet' : `No ${status} transfers`}
           description={
             status === 'all'
-              ? 'Create a transfer to move money between two accounts. It will show up here immediately.'
+              ? 'Generate a sample ledger to populate company accounts and transfers, or create your own transfer.'
               : 'Try a different filter, or create a new transfer.'
           }
         >
+          {status === 'all' && <SeedDataButton />}
           <Link to="/transfer">
-            <Button>New transfer</Button>
+            <Button variant="secondary">New transfer</Button>
           </Link>
         </EmptyState>
       )}

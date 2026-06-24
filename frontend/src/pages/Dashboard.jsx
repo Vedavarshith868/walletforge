@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Alert,
@@ -17,6 +16,7 @@ import {
   Td,
   TypeBadge,
 } from '../components/ui';
+import SeedDataButton from '../components/SeedDataButton';
 import {
   IconPlus,
   IconWallet,
@@ -24,20 +24,14 @@ import {
   IconTrendingDown,
   IconScale,
   IconClock,
-  IconSparkles,
 } from '../components/icons';
-import { useApi } from '../lib/useApi';
 import { useAccounts } from '../lib/useAccounts';
 import { useAuth } from '../lib/auth';
-import { createSampleLedger } from '../lib/sampleData';
 
 export default function Dashboard() {
-  const call = useApi();
   const navigate = useNavigate();
   const { session } = useAuth();
   const { accounts, loading, error, reload } = useAccounts();
-  const [seeding, setSeeding] = useState(false);
-  const [seedError, setSeedError] = useState(null);
 
   const assetAccounts = accounts.filter((account) => account.type === 'asset');
   const liabilityAccounts = accounts.filter((account) => account.type === 'liability');
@@ -45,19 +39,6 @@ export default function Dashboard() {
   const totalLiabilities = liabilityAccounts.reduce((sum, account) => sum + account.balance, 0);
   const netPosition = accounts.reduce((sum, account) => sum + account.balance, 0);
   const reserved = accounts.reduce((sum, account) => sum + (account.balance - account.availableBalance), 0);
-
-  const seed = async () => {
-    setSeeding(true);
-    setSeedError(null);
-    try {
-      await createSampleLedger(call);
-      await reload();
-    } catch (requestError) {
-      setSeedError(requestError.message);
-    } finally {
-      setSeeding(false);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -85,28 +66,43 @@ export default function Dashboard() {
         <EmptyState
           icon={<IconWallet className="h-6 w-6" />}
           title="Your ledger is empty"
-          description="In double-entry accounting money never appears from nowhere — it enters through a liability account and flows into your asset accounts. Spin up a sample ledger to see balances, transfers and history populated, or create your first account."
+          description="In double-entry accounting money never appears from nowhere — it enters through a liability account and flows into your asset accounts. Generate a sample ledger to see balances, transfers and history populated, or create your first account."
         >
-          <Button onClick={seed} disabled={seeding} icon={<IconSparkles className="h-4 w-4" />}>
-            {seeding ? 'Setting up…' : 'Create sample ledger'}
-          </Button>
+          <SeedDataButton onSeeded={reload} />
           <Link to="/accounts/new">
             <Button variant="secondary">Create an account</Button>
           </Link>
         </EmptyState>
       )}
-      <Alert>{seedError}</Alert>
 
       {accounts.length > 0 && (
         <>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <StatCard
-              label="Total assets"
-              value={<Amount minor={totalAssets} />}
-              icon={<IconTrendingUp className="h-5 w-5" />}
-              accent="emerald"
-              hint={`${assetAccounts.length} asset account${assetAccounts.length === 1 ? '' : 's'}`}
-            />
+          <Card className="relative overflow-hidden">
+            <div className="glow-orb -right-10 -top-20 h-56 w-56 bg-sky-500/20" />
+            <div className="relative flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-wide text-slate-400">Total balance</p>
+                <p className="mt-2 text-4xl font-semibold tabular-nums text-white">
+                  <Amount minor={totalAssets} />
+                </p>
+                <div className="mt-3 flex items-center gap-3">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-300 ring-1 ring-emerald-400/20">
+                    <IconTrendingUp className="h-3.5 w-3.5" /> Net balanced
+                  </span>
+                  <span className="text-xs text-slate-500">
+                    {accounts.length} accounts · {assetAccounts.length} asset · {liabilityAccounts.length} liability
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Link to="/transfer">
+                  <Button>New transfer</Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <StatCard
               label="Total liabilities"
               value={<Amount minor={totalLiabilities} />}
