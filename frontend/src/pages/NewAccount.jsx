@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Alert, Button, Card, Field, Input, Select } from '../components/ui';
+import { Link, useNavigate } from 'react-router-dom';
+import { Alert, Button, Card, Field, Input, PageHeader, Select } from '../components/ui';
+import { IconChevronLeft } from '../components/icons';
 import { useApi } from '../lib/useApi';
 
 export default function NewAccount() {
@@ -17,11 +18,7 @@ export default function NewAccount() {
     setSubmitting(true);
     setError(null);
     try {
-      const data = await call('/accounts', {
-        method: 'POST',
-        body: form,
-        idempotencyKey: crypto.randomUUID(),
-      });
+      const data = await call('/accounts', { method: 'POST', body: form, idempotencyKey: crypto.randomUUID() });
       navigate(`/accounts/${data.account.id}`);
     } catch (requestError) {
       setError(requestError.message);
@@ -30,24 +27,32 @@ export default function NewAccount() {
   };
 
   return (
-    <div className="mx-auto max-w-lg space-y-6">
-      <h1 className="text-2xl font-semibold">New account</h1>
+    <div className="mx-auto max-w-xl">
+      <PageHeader
+        title="New account"
+        subtitle="Accounts start at a zero balance and change only through balanced transfers."
+        back={
+          <Link to="/dashboard" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+            <IconChevronLeft className="h-4 w-4" /> Overview
+          </Link>
+        }
+      />
       <Card>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Field label="Name">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <Field label="Account name">
             <Input value={form.name} onChange={update('name')} placeholder="Operating Cash" required />
           </Field>
           <Field
             label="Type"
-            hint="Asset accounts cannot go negative. Liability accounts can, which is how money enters the ledger."
+            hint="Asset accounts can never go negative. Liability accounts can — that is how money first enters the ledger."
           >
             <Select value={form.type} onChange={update('type')}>
-              <option value="asset">Asset</option>
-              <option value="liability">Liability</option>
+              <option value="asset">Asset — holds money (e.g. Cash, Reserve)</option>
+              <option value="liability">Liability — funds the ledger (e.g. External Funding)</option>
             </Select>
           </Field>
           <Alert>{error}</Alert>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-1">
             <Button type="submit" disabled={submitting}>
               {submitting ? 'Creating…' : 'Create account'}
             </Button>

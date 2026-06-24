@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Alert, Button, Card, Loading, StatusBadge } from '../components/ui';
+import { Alert, Amount, Button, Card, Loading, PageHeader, StatusBadge } from '../components/ui';
+import { IconChevronLeft, IconArrowRight } from '../components/icons';
 import { useApi } from '../lib/useApi';
 import { useAccounts } from '../lib/useAccounts';
-import { formatAmount } from '../lib/money';
 
 function Row({ label, children }) {
   return (
-    <div className="flex justify-between border-b border-slate-100 py-2 last:border-0">
+    <div className="flex items-center justify-between border-b border-slate-100 py-3 last:border-0">
       <span className="text-sm text-slate-500">{label}</span>
       <span className="text-sm font-medium text-slate-900">{children}</span>
     </div>
@@ -44,10 +44,7 @@ export default function TransferDetail() {
     setWorking(true);
     setError(null);
     try {
-      const data = await call(`/transfers/${id}/${action}`, {
-        method: 'POST',
-        idempotencyKey: crypto.randomUUID(),
-      });
+      const data = await call(`/transfers/${id}/${action}`, { method: 'POST', idempotencyKey: crypto.randomUUID() });
       setTransfer(data.transfer);
     } catch (requestError) {
       setError(requestError.message);
@@ -63,49 +60,55 @@ export default function TransferDetail() {
   if (!transfer) return null;
 
   return (
-    <div className="mx-auto max-w-lg space-y-6">
-      <Link to="/transfers" className="text-sm text-slate-500 hover:underline">
-        ← Transfers
-      </Link>
+    <div className="mx-auto max-w-xl space-y-6">
+      <PageHeader
+        title="Transfer"
+        back={
+          <Link to="/transfers" className="mb-3 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+            <IconChevronLeft className="h-4 w-4" /> Transactions
+          </Link>
+        }
+      />
 
       <Card>
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Transfer</h1>
+        <div className="flex flex-col items-center gap-4 border-b border-slate-100 pb-6">
+          <p className="text-4xl font-semibold tabular-nums text-slate-900">
+            <Amount minor={transfer.amount} />
+          </p>
           <StatusBadge status={transfer.status} />
+          <div className="flex items-center gap-3 text-sm text-slate-600">
+            <Link to={`/accounts/${transfer.sourceAccountId}`} className="font-medium hover:text-indigo-600">
+              {accountName(transfer.sourceAccountId)}
+            </Link>
+            <IconArrowRight className="h-4 w-4 text-slate-300" />
+            <Link to={`/accounts/${transfer.destinationAccountId}`} className="font-medium hover:text-indigo-600">
+              {accountName(transfer.destinationAccountId)}
+            </Link>
+          </div>
         </div>
 
-        <Row label="Amount">
-          <span className="font-mono">{formatAmount(transfer.amount)}</span>
-        </Row>
-        <Row label="From">
-          <Link to={`/accounts/${transfer.sourceAccountId}`} className="hover:underline">
-            {accountName(transfer.sourceAccountId)}
-          </Link>
-        </Row>
-        <Row label="To">
-          <Link to={`/accounts/${transfer.destinationAccountId}`} className="hover:underline">
-            {accountName(transfer.destinationAccountId)}
-          </Link>
-        </Row>
-        <Row label="Created">{new Date(transfer.createdAt).toLocaleString()}</Row>
-        {transfer.postedAt && <Row label="Posted">{new Date(transfer.postedAt).toLocaleString()}</Row>}
-        {transfer.voidedAt && <Row label="Voided">{new Date(transfer.voidedAt).toLocaleString()}</Row>}
-        {transfer.idempotencyKey && (
-          <Row label="Idempotency key">
-            <span className="font-mono text-xs">{transfer.idempotencyKey}</span>
-          </Row>
-        )}
+        <div className="mt-2">
+          <Row label="Created">{new Date(transfer.createdAt).toLocaleString()}</Row>
+          {transfer.postedAt && <Row label="Posted">{new Date(transfer.postedAt).toLocaleString()}</Row>}
+          {transfer.voidedAt && <Row label="Voided">{new Date(transfer.voidedAt).toLocaleString()}</Row>}
+          {transfer.idempotencyKey && (
+            <Row label="Idempotency key">
+              <span className="font-mono text-xs text-slate-500">{transfer.idempotencyKey}</span>
+            </Row>
+          )}
+        </div>
       </Card>
 
       {transfer.status === 'pending' && (
         <Card>
-          <p className="mb-3 text-sm text-slate-600">
-            This transfer is pending. Posting moves the money; voiding releases the reserved balance.
+          <p className="text-sm text-slate-600">
+            This transfer is pending — the source balance is reserved but not yet moved. Post it to settle the funds, or
+            void it to release the reservation.
           </p>
           <Alert>{error}</Alert>
-          <div className="mt-3 flex gap-3">
+          <div className="mt-4 flex gap-3">
             <Button onClick={() => act('post')} disabled={working}>
-              Post transfer
+              {working ? 'Working…' : 'Post transfer'}
             </Button>
             <Button variant="danger" onClick={() => act('void')} disabled={working}>
               Void transfer
